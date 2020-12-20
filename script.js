@@ -4,6 +4,10 @@ const form = document.querySelector('form');
 const input = document.querySelector('#txtTaskName');
 const btnDeleteAll = document.querySelector('#btnDeleteAll');
 const taskList = document.querySelector('#task-list');
+const items = ['item 1', 'item 2', 'item 3'];
+
+// Load Items
+loadItems();
 
 // Call event listeners
 eventListeners();
@@ -19,6 +23,30 @@ function eventListeners() {
     btnDeleteAll.addEventListener('click', deleteAllItems)
 }
 
+function loadItems(){
+    items.forEach(function(item){
+        createItem(item);
+    })
+}
+
+function createItem(item) {
+    // Create li
+    const li = document.createElement('li');
+    li.className = 'list-group-item list-group-item-secondary'
+    li.appendChild(document.createTextNode(item));
+
+    // Create a
+    const a = document.createElement('a');
+    a.classList = 'delete-item float-right'
+    a.setAttribute('href', '#');
+    a.innerHTML = '<i class="fas fa-times"></i>'
+
+    // Add a to li
+    li.appendChild(a);
+
+    // Add li to ul
+    taskList.appendChild(li);
+}
 
 // Add new item
 function addNewItem(e) {
@@ -27,27 +55,12 @@ function addNewItem(e) {
         alert('Boş')
     }
     else {
-        // Create li
-        const li = document.createElement('li');
-        li.className = 'list-group-item list-group-item-secondary'
-        li.appendChild(document.createTextNode(input.value));
 
-        // Create a
-        const a = document.createElement('a');
-        a.classList = 'delete-item float-right'
-        a.setAttribute('href', '#');
-        a.innerHTML = '<i class="fas fa-times"></i>'
-
-        // Add a to li
-        li.appendChild(a);
-
-        // Add li to ul
-        taskList.appendChild(li);
+        // Create Item
+        createItem(input.value);
 
         // Clear Input
         input.value = '';
-
-        console.log(li)
 
         e.preventDefault();
     }
@@ -56,11 +69,10 @@ function addNewItem(e) {
 // Delete an item
 function deleteItem(e) {
 
-    if (confirm('Emin misiniz?')) {
-        if (e.target.className === 'fas fa-times') {
+    if (e.target.className === 'fas fa-times') {
+        if (confirm('Emin misiniz?')) {
             e.target.parentElement.parentElement.remove();
         }
-
     }
 
     e.preventDefault();
