@@ -2,7 +2,6 @@
 
 const form = document.querySelector('form');
 const input = document.querySelector('#txtTaskName');
-
 const btnDeleteAll = document.querySelector('#btnDeleteAll');
 const taskList = document.querySelector('#task-list');
 
@@ -12,6 +11,12 @@ eventListeners();
 function eventListeners() {
     // Submit event
     form.addEventListener('submit', addNewItem);
+
+    // Deletean an item
+    taskList.addEventListener('click', deleteItem)
+
+    // Delete All Items
+    btnDeleteAll.addEventListener('click', deleteAllItems)
 }
 
 
@@ -47,3 +52,34 @@ function addNewItem(e) {
         e.preventDefault();
     }
 }
+
+// Delete an item
+function deleteItem(e) {
+
+    if (confirm('Emin misiniz?')) {
+        if (e.target.className === 'fas fa-times') {
+            e.target.parentElement.parentElement.remove();
+        }
+
+    }
+
+    e.preventDefault();
+}
+
+// Delete All Items
+function deleteAllItems(e) {
+
+    // taskList.innerHTML='';
+
+    if (confirm('Emin misiniz?')) {
+        taskList.childNodes.forEach(function (item) {
+            if (item.nodeType === 1) {
+                item.remove();
+            }
+        })
+    }
+
+    e.preventDefault();
+}
+
+
